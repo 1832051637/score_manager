@@ -33,7 +33,7 @@ WINDOW_SIZE = f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}+{WINDOW_X}+{WINDOW_Y}"
 
 gui.title(APP_NAME)
 gui.geometry(WINDOW_SIZE)
-
+gui.iconphoto(False, tkinter.PhotoImage(file="resources/images/icon.png"))
 button_frame = tkinter.Frame(gui)
 
 button_frame.pack(pady=10)
