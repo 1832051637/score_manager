@@ -23,30 +23,43 @@ def add_score():
     gui.deiconify()
 
 def show_score():
-    gui.iconify()
-
     if len(score_list) == 0:
         messagebox.showinfo("Notice", "No scores available")
-    else:
-        score_output = ""
-        all_scores = []
-        for student in score_list:
-            all_scores.append(student["Score"])
-            score_output += f"{student["Name"]}: {student["Score"]}\n"
-        # print(all_scores)
-        score_output += f"Highest: {max(all_scores)}\n" \
-                    + f"Lowest: {min(all_scores)}\n" \
-                    + f"Mean: {sum(all_scores)/len(all_scores)}\n"
-        messagebox.showinfo("Scores", score_output)
-        
+        return
+    
+    # gui.iconify()
+    score_window = Toplevel()
+    score_window.title("Score List")
+    score_window.iconphoto(False, PhotoImage(file="resources/images/icon.png"))
+    score_output = ""
+    score_output += f"{'Name':<15}{'Score':>10}\n"
+    score_output += "-" * 25  + "\n"
+    all_scores = []
+    for student in score_list:
+        all_scores.append(student["Score"])
+        score_output += f"{student["Name"]:<15}{student["Score"]:>10}\n"
 
-    gui.deiconify()
-    pass
+    score_output += "-" * 25  + "\n"
+    score_output += f"{'Highest:':<15}{max(all_scores):>10}\n"
+    score_output += f"{'Lowest:':<15}{min(all_scores):>10}\n" 
+    score_output += f"{'Mean:':<15} {sum(all_scores)/len(all_scores):>10.2f}\n"
+    # messagebox.showinfo("Scores", score_output)
+        
+    label = Label(score_window, text=score_output, font=("Courier", 12), justify="left", padx=10, pady=10)
+    label.pack()
+    
+    # gui.deiconify()
 
 def remove_score():
     pass
 
 def modify_score():
+    pass
+
+def curve():
+    pass
+
+def curve_formula():
     pass
 
 def exit_app():
@@ -84,8 +97,11 @@ Button(
     button_frame, text="Modify Score", width=20, command=modify_score
     ).grid(row=3, column=0, pady= 10)
 Button(
+    button_frame, text="Curve", width=20, command=curve
+    ).grid(row=4, column=0, pady= 10)
+Button(
     button_frame, text="Exit", width=20, fg="#FFFFFF",bg="#FF0000",
     command=exit_app
-    ).grid(row=4, column=0, pady= 10)
+    ).grid(row=5, column=0, pady= 10)
 
 gui.mainloop()
