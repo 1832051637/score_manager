@@ -26,8 +26,6 @@ def show_score():
     if len(score_list) == 0:
         messagebox.showinfo("Notice", "No scores available")
         return
-    
-    # gui.iconify()
     score_window = Toplevel()
     score_window.title("Score List")
     score_window.iconphoto(False, PhotoImage(file="resources/images/icon.png"))
@@ -43,14 +41,36 @@ def show_score():
     score_output += f"{'Highest:':<15}{max(all_scores):>10}\n"
     score_output += f"{'Lowest:':<15}{min(all_scores):>10}\n" 
     score_output += f"{'Mean:':<15} {sum(all_scores)/len(all_scores):>10.2f}\n"
-    # messagebox.showinfo("Scores", score_output)
-        
     label = Label(score_window, text=score_output, font=("Courier", 12), justify="left", padx=10, pady=10)
     label.pack()
-    
+
     # gui.deiconify()
 
 def remove_score():
+    if len(score_list) == 0:
+        messagebox.showerror("Error", "No score to remove!")
+        return
+    remove_window = Toplevel()
+    remove_window.title("Rmove a score")
+    remove_window.iconphoto(False, PhotoImage(file="resources/images/icon.png"))
+
+    label = Label(remove_window, text="Select a student to remove")
+    label.pack(pady=5)
+    list_box = Listbox(remove_window, selectmode=MULTIPLE, width=30)
+    list_box.pack(pady=10, fill=BOTH, expand=True)
+    for student in score_list:
+        list_box.insert(END, f"{student['Name']} - {student['Score']}")
+
+    def delete_selected():
+        selected = list(list_box.curselection())
+        if not selected:
+            messagebox.showwarning("Warning", "Please select at least one student.")
+            return
+        for i in reversed(selected):
+            score_list.pop(i)
+        remove_window.destroy()
+    delete_btn = Button(remove_window, text="Delete Selected", command=delete_selected)
+    delete_btn.pack(pady=10)
     pass
 
 def modify_score():
